@@ -1,5 +1,7 @@
 # KnowsU
-A NodeJS app that uses IBM Watson to analyze users' emotion through text with other APIs like Spotify to give user suggestions such as book reading, movie watching, and listening to music.
+A NodeJS app that uses IBM Watson to analyze users' emotions through text with other APIs like Spotify to give user suggestions of books, movies, and music.
+
+Check out the [Devpost link:](https://devpost.com/software/knowsu)
 
 ### API used: 
 1. Watson Tone Analyzer

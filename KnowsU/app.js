@@ -1,4 +1,4 @@
-// require packages
+// required packages
 var express = require("express");
 var app = express();
 var bodyParser  = require("body-parser");
@@ -13,9 +13,9 @@ app.use(express.static("public"));
 
 // configuration for tone_analyzer
 var tone_analyzer = new ToneAnalyzerV3({
-  username: 'ef0112d2-147c-43dd-a529-48c7e4321fc6',
-  password: 'MzcFJCWkobJK',
-  version_date: '2016-05-19'
+  username: 'your-username',
+  password: 'your-password',
+  version_date: 'API version date'
 });
 
 // Root route
@@ -69,44 +69,49 @@ function getRandom() {
   return Math.floor(Math.random() * 4);
 }
 
+// create arrays of emotional words to create randomized query search words
 var query = "";
 var sadness = ["sad", "upset", "broken", "melancholy", "cry"];
 var joy = ["happy", "fun", "peace", "delight", "bliss"];
 var anger = ["safe", "calm", "peace", "pleasure", "relax"];
 var fear = ["dangerous", "fire", "safe", "joy", "ease"]
-var disgust = ["calm", "excited", "interested", "dilicious", "joyful"];
+var disgust = ["calm", "excited", "interested", "delicious", "joyful"];
 
+// using getQuery function to get random emotional words base on API response
 function getQuery() {
-	if (first == "sadness")
-		query = sadness[getRandom()];
-	else if (first == "joy")
-		query = joy[getRandom()];
-	else if (first == "anger")
-		query = anger[getRandom()];
-	else if (first == "fear")
-		query = fear[getRandom()];
-	else if (first == "disgust")
-		query = disgust[getRandom()];
-	else
-		query = joy[getRandom()];
+  if (first == "sadness")
+    query = sadness[getRandom()];
+  else if (first == "joy")
+    query = joy[getRandom()];
+  else if (first == "anger")
+    query = anger[getRandom()];
+  else if (first == "fear")
+    query = fear[getRandom()];
+  else if (first == "disgust")
+    query = disgust[getRandom()];
+  else
+    query = joy[getRandom()];
 }
 
 // SHOW route
 app.get("/index", function(req, res){
   getQuery();
   
+  // send request through spotify API
   var url = 'https://api.spotify.com/v1/search?q=' + query  + '&type=album&offset=0&limit=6';
   request(url, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       var parsedData = JSON.parse(body);
       var albumData = parsedData["albums"]["items"];
       
+      // send request through omdb API
       url = "http://www.omdbapi.com/?s=" + query;
       request(url, function (error, response, body) {
         if (!error && response.statusCode == 200) {
           parsedData = JSON.parse(body);
           var movieData = parsedData["Search"]
           
+          // search books with Google book API
           books.search(query, function(error, results) {
             if (!error) {
               console.log(results);
