@@ -3,6 +3,16 @@ A NodeJS app that uses IBM Watson to analyze users' emotions through text with o
 
 Check out the [Devpost link:](https://devpost.com/software/knowsu)
 
+Don't forget to include your configuration from IBM Watson:
+```javascript
+// configuration for tone_analyzer
+var tone_analyzer = new ToneAnalyzerV3({
+  username: 'your-username',
+  password: 'your-password',
+  version_date: 'API version date'
+});
+```
+
 ### API used: 
 1. Watson Tone Analyzer
 2. Google Books API
